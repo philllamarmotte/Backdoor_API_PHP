@@ -1,0 +1,8 @@
+.DS_Store
+tmp*
+
+# IntelliJ config files
+.idea
+*.iws
+*.ipr
+out
