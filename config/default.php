@@ -20,7 +20,7 @@ $config["config"] = array();
  *
  */
 
-$config["libraries"] = array("model_json", "XV_Controller");
+$config["libraries"] = array("model_json");
 
 /*
  *
