@@ -8,7 +8,7 @@
 
 if ($method != "GET" && $method != "DELETE")
 {
-	$input_data = json_decode(file_get_contents('php://input'));
+	$input_data = parse_ini_string(file_get_contents('php://input'));
 
 	if($input_data == "")
 	{

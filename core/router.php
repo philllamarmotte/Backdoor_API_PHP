@@ -19,3 +19,7 @@ if (!empty($input_controller)) {
 	http_response_code(400);
 	show_error("no object name");
 }
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
