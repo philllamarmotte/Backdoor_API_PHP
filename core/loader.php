@@ -30,6 +30,7 @@ if (!function_exists("load_library")) {
 if (!function_exists("load_model")) {
 	function load_model($file)
 	{
+		$file = strtolower($file);
 		$file_path = MODELSPATH . $file . ".php";
 
 		if (file_exists($file_path)) {

@@ -14,11 +14,78 @@ abstract class Model_JSON
 		$this->file_path = DATAPATH . "data." . $this->file_name . ".json";
 	}
 
-	abstract public function get($id);
+	public function get($id)
+	{
+		$file_data = $this->read();
+		$name = $this->file_name;
 
-	abstract public function edit($id, $data);
+		if (!isset($file_data->$name)) {
+			if (!isset($id)) {
+				return json_encode(array());
+			}
+			show_error("no data available");
+		}
 
-	abstract public function delete($id);
+		if (isset($id)) {
+			foreach ($file_data->$name as $object_val) {
+				if (isset($object_val->id) && ($object_val->id == $id)) {
+					return json_encode($object_val);
+				}
+			}
+			show_error("object not found");
+		} else {
+			return json_encode($file_data->$name);
+		}
+	}
+
+	public function edit($id, $data)
+	{
+		$file_data = $this->read();
+		$name = $this->file_name;
+
+		if(!isset($id))
+		{
+			if(!isset($data))
+				show_error("no data found");
+
+			$data->id = uniqid();
+
+			$file_data->{$name}[]=$data;
+
+			return $this->save($file_data);
+		}
+		else {
+			foreach ($file_data->$name as $object_key => $object_val) {
+				if (isset($object_val->id) && ($object_val->id == $id)) {
+					if (!isset($data)) {
+						show_error("no data found");
+					}
+
+					$file_data->{$name}[$object_key] = $data;
+
+					return $this->save($file_data);
+				}
+			}
+		}
+
+		show_error("object not found");
+	}
+
+	public function delete($id)
+	{
+		$file_data = $this->read();
+		$name = $this->file_name;
+
+		foreach($file_data->$name as $object_key => $object_val){
+			if ($object_val->id==$id){
+				array_splice($file_data->$name,$object_key,1);
+
+				return $this->save($file_data);
+			}
+		}
+
+		show_error("object not found");
+	}
 
 	protected function read()
 	{
